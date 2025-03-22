@@ -30,12 +30,21 @@ router.get('/:articleId', async function(req, res, next) {
         const article = await Article.findByPk(
             req.params.articleId
         );
-        // res.send(article);
-        res.json({
-            status: true,
-            message: 'Success',
-            data: { article }
-        })
+
+        if (article) {
+            // res.send(article);
+            res.json({
+                status: true,
+                message: 'Success',
+                data: { article }
+            });
+        } else {
+            res.status(404).json({
+                status: 404,
+                message: 'Not Found',
+                errors: ['Article not found']
+            });
+        }
     } catch (error) {
         res.status(500).json({
             status: 500,
